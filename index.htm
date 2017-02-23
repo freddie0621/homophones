@@ -1,0 +1,110 @@
+
+ <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script> 
+<script>
+
+function initialise(){
+    $("button").click(function(){
+        alert("button!!");
+        return false;
+    });
+};
+
+$(document).ajaxComplete(function () {
+    initialise();
+});
+
+$(document).ready(function() {
+var bar = 'xyz';
+var calibri = 'no$libri';
+
+ initialise();
+
+
+
+
+
+		
+$(".cities").click(function () {
+		 $.ajax({
+    url:"gropage.php", //the page containing php script
+    type: "POST", //request type
+	 data: jQuery.param({ txt: $(this).attr('data-value'), field2 : "hello0002"}) ,
+    contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+    success:function(result){
+    //alert(result);
+	//alert($(this).attr('data-value'));
+	$('#mytable2').html(result);
+    }
+  });
+   //$('#mytable2').hide();
+   //$('#mytable2').show();
+		});
+
+  // Lorsque je soumets le formulaire
+    $('#monForm').on('submit', function(e) {
+        e.preventDefault(); // J'empêche le comportement par défaut du navigateur, c-à-d de soumettre le formulaire
+ 
+        var $this = $(this); // L'objet jQuery du formulaire
+ 
+        // Je récupère les valeurs
+        var pseudo = $('#pseudo').val();
+        var mail = $('#mail').val();
+ 
+        // Je vérifie une première fois pour ne pas lancer la requête HTTP
+        // si je sais que mon PHP renverra une erreur
+        if(pseudo === '' || mail === '') {
+            alert('Les champs doivent êtres remplis');
+        } else {
+            // Envoi de la requête HTTP en mode asynchrone
+            $.ajax({
+                url: $this.attr('action'), // Le nom du fichier indiqué dans le formulaire
+                type: $this.attr('method'), // La méthode indiquée dans le formulaire (get ou post)
+                data: $this.serialize(), // Je sérialise les données (j'envoie toutes les valeurs présentes dans le formulaire)
+				contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                success: function(result1html) { // Je récupère la réponse du fichier PHP
+                    //alert(result1html); // J'affiche cette réponse
+					$('#mytable3').html(result1html);
+                }
+            });
+        }
+		//$('#mytable2').hide();
+   //$('#mytable2').show();
+    });
+		
+		
+		
+		
+		
+
+})
+</script>
+<html>
+
+
+
+
+ 
+<form id="monForm" action="posthomopage.php" method="post">
+    <label for="pseudo">homophone 1</label>
+    <input type="text" id="homo1" name="homo1" />
+	<label for="pseudo">homophone 2</label>
+    <input type="text" id="homo2" name="homo2" />
+ 
+    <!-- <label for="mail">Email</label>
+    <input type="email" id="mail" name="mail" />  -->
+ 
+    <input type="submit" id="envoyer" value="Envoyer" />
+</form>
+
+<input type='button' data-value="buttonValue2" value='EPSproblemes'  class="cities" id='EPS2A'>
+
+ <div id = "mytable2" style="width:100%">
+
+
+</div>
+<div id = "mytable3" style="width:100%">
+
+
+</div>
+
+<html>
